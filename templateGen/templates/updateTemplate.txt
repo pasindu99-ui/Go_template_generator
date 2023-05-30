@@ -18,7 +18,7 @@ func UpdateUser(c echo.Context) error {
 	user_name := c.FormValue("user_name")
 	email := c.FormValue("email")
 
-	url := {{.MongoURL}}
+	url := "{{.MongoURL}}"
 	// Set up MongoDB connection
 	clientOptions := options.Client().ApplyURI(url)
 	client, err := mongo.Connect(context.Background(), clientOptions)

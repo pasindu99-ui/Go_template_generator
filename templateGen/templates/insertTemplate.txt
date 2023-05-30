@@ -21,7 +21,7 @@ func InsertUser(c echo.Context) error {
 	email := c.FormValue("email")
 	password := c.FormValue("password")
 
-	url := {{.MongoURL}}
+	url :=" {{.MongoURL}}"
 	// Set up MongoDB connection
 	clientOptions := options.Client().ApplyURI(url)
 	client, err := mongo.Connect(context.Background(), clientOptions)

@@ -15,7 +15,7 @@ func DeleteUser(c echo.Context) error {
 	user_name := c.FormValue("user_name")
 
 	// Set up MongoDB connection
-	url := {{.MongoURL}}
+	url :=" {{.MongoURL}}"
 	// Set up MongoDB connection
 	clientOptions := options.Client().ApplyURI(url)
 	client, err := mongo.Connect(context.Background(), clientOptions)
