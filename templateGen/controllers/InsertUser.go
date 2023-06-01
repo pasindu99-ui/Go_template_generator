@@ -1,11 +1,9 @@
 package controllers
 
 import (
-	"bytes"
-	"net/http"
+	"fmt"
+	"os"
 	"text/template"
-
-	"github.com/labstack/echo"
 )
 
 type Details struct {
@@ -14,26 +12,28 @@ type Details struct {
 	CollectionName string
 }
 
-func InsertUser(c echo.Context) error {
-	mongoURL := c.FormValue("mongoURL")
-	databaseName := c.FormValue("databaseName")
-	collectionName := c.FormValue("collectionName")
-
-	details := Details{mongoURL, databaseName, collectionName}
-	templatePath := "G:\\Go_template_generator\\templateGen\\templates\\insertTemplate.txt"
+func InsertUser(url, dbName, collectionName string) {
+	details := Details{url, dbName, collectionName}
+	templatePath := "F:\\Go_template_generator\\templateGen\\templates\\insertTemplate.txt"
 
 	t, err := template.New("insertTemplate.txt").ParseFiles(templatePath)
 
 	if err != nil {
-		return err
+		fmt.Println("Error parsing template:", err)
 	}
-	var buffer bytes.Buffer
 
-	err = t.Execute(&buffer, details)
+	outputFile := "crud_app/controllers/insertUser.go"
+	file, err := os.Create(outputFile)
 	if err != nil {
-		return err
-	}
-	generatedCode := buffer.String()
+		fmt.Println("Error creating file:", err)
 
-	return c.String(http.StatusOK, generatedCode)
+	}
+	defer file.Close()
+
+	err = t.Execute(file, details)
+	if err != nil {
+		fmt.Println("Error executing template:", err)
+
+	}
+
 }

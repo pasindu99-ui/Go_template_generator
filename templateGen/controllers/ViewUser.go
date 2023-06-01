@@ -1,11 +1,9 @@
 package controllers
 
 import (
-	"bytes"
-	"net/http"
+	"fmt"
+	"os"
 	"text/template"
-
-	"github.com/labstack/echo"
 )
 
 type DetailsView struct {
@@ -14,27 +12,28 @@ type DetailsView struct {
 	CollectionName string
 }
 
-func ViewUser(c echo.Context) error {
-	mongoURL := c.FormValue("mongoURL")
-	databaseName := c.FormValue("databaseName")
-	collectionName := c.FormValue("collectionName")
+func ViewUser(url, dbName, collectionName string) {
 
-	details := Details{mongoURL, databaseName, collectionName}
-	templatePath := "G:\\Go_template_generator\\templateGen\\templates\\viewTemplate.txt"
+	details := Details{url, dbName, collectionName}
+	templatePath := "F:\\Go_template_generator\\templateGen\\templates\\viewTemplate.txt"
 
 	t, err := template.New("viewTemplate.txt").ParseFiles(templatePath)
 
 	if err != nil {
-		return err
+		fmt.Println(err)
 	}
 
-	var buffer bytes.Buffer
-
-	err = t.Execute(&buffer, details)
+	outputFile := "crud_app/controllers/viewUser.go"
+	file, err := os.Create(outputFile)
 	if err != nil {
-		return err
-	}
-	generatedCode := buffer.String()
+		fmt.Println("Error creating file:", err)
 
-	return c.String(http.StatusOK, generatedCode)
+	}
+	defer file.Close()
+
+	err = t.Execute(file, details)
+	if err != nil {
+		fmt.Println("Error executing template:", err)
+
+	}
 }

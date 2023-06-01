@@ -1,7 +1,3 @@
-MongoDB URL: {{.MongoURL}}
-Database Name: {{.DatabaseName}}
-Collection Name: {{.CollectionName}}
-
 package controllers
 
 import (
