@@ -7,5 +7,5 @@ import (
 )
 
 func Routes(e *echo.Echo) {
-	e.POST("/insert-user", controllers.MainFunc)
+	e.POST("/create-app", controllers.MainFunc)
 }

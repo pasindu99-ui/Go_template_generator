@@ -19,8 +19,8 @@ func RouteFile() {
 	file, err := os.Create(outputFile)
 	if err != nil {
 		fmt.Println("Error creating file:", err)
-
 	}
+
 	defer file.Close()
 
 	err = t.Execute(file, nil)
